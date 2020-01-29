@@ -41,6 +41,16 @@ class Main_Win(QMainWindow):
         self.HelpButton.setIcon(help_icon)
         #self.HelpButton.clicked.connect(self.displayHelpWindow)    #WHEN HELP MENU UI FILES ARE ADDED FINISH THIS
 
+        #Profiles Button Setup
+        profiles_icon = qta.icon('mdi.account-outline')
+        self.ProfilesButton = self.findChild(QtWidgets.QPushButton, 'ProfilesButton')
+        self.ProfilesButton.setIcon(profiles_icon)
+
+        #Notifications Button Setup
+        notifications_icon = qta.icon('mdi.alarm-light-outline')
+        self.NotificationsButton = self.findChild(QtWidgets.QPushButton, 'NotificationsButton')
+        self.NotificationsButton.setIcon(notifications_icon)
+
     def testGraph(self):
         fig, ax = plt.subplots()
         months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
