@@ -9,4 +9,6 @@ A system designed to monitor the power usage of appliances that are plugged into
 
 - PyQT5
 - Matplotlib
+- QTAwesome
+- MySQL Connector
 
