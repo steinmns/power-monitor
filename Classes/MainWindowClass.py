@@ -2,6 +2,10 @@
 from PyQt5 import QtWidgets, QtCore, uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QVBoxLayout
 
+#External Classes
+from Classes.SettingsMenuClass import Settings_Win
+from Classes.ProfilesMenuClass import Profiles_Win
+
 #Graphing Dependencies
 import matplotlib
 matplotlib.use('QT5Agg')
@@ -33,7 +37,7 @@ class Main_Win(QMainWindow):
         settings_icon = qta.icon('mdi.settings-outline')
         self.SettingsButton = self.findChild(QtWidgets.QPushButton, 'SettingsButton') 
         self.SettingsButton.setIcon(settings_icon)
-        #self.SettingsButton.clicked.connect(self.displaySettingsMenu)  #WHEN SETTINGS UI FILES ARE ADDED FINISH THIS
+        self.SettingsButton.clicked.connect(self.displaySettingsMenu) 
 
         #Help Button Setup
         help_icon = qta.icon('mdi.help-circle-outline')
@@ -45,11 +49,28 @@ class Main_Win(QMainWindow):
         profiles_icon = qta.icon('mdi.account-outline')
         self.ProfilesButton = self.findChild(QtWidgets.QPushButton, 'ProfilesButton')
         self.ProfilesButton.setIcon(profiles_icon)
+        self.ProfilesButton.clicked.connect(self.displayProfilesMenu)
 
         #Notifications Button Setup
         notifications_icon = qta.icon('mdi.alarm-light-outline')
         self.NotificationsButton = self.findChild(QtWidgets.QPushButton, 'NotificationsButton')
         self.NotificationsButton.setIcon(notifications_icon)
+
+    def displaySettingsMenu(self):
+        # Displays the Settings Menu when the SettingsButton is pressed
+        settingsMenu = Settings_Win(self)
+        if settingsMenu.exec_():
+            print("Success!")
+        else:
+            print("Closing Settings Menu")
+
+    def displayProfilesMenu(self):
+        #Displays the Profile Configuration Menu when the ProfilesButton is pressed
+        profilesMenu = Profiles_Win(self)
+        if profilesMenu.exec_():
+            print("Success!")
+        else:
+            print("Closing Profiles Menu")
 
     def testGraph(self):
         fig, ax = plt.subplots()
