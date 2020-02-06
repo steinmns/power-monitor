@@ -72,14 +72,29 @@ class Main_Win(QMainWindow):
         else:
             print("Closing Profiles Menu")
 
-    def testGraph(self):
+    def getData(self, timespan):
+        #Gets power usage data logged over past hour
+        #Timespan indicates the scope of the get (hourly/weekly/monthly/yearly)
+        sql = 'SELECT FROM WHERE'
+
+    def getAverage(self, timepsan):
+        #Gets average power usage over past hour
+        #Timespan indicates the scope of the get (hourly/weekly/monthly/yearly)
+        sql = 'SELECT AVG(COLUMN NAME HERE) FROM WHERE'
+
+    def getLifetimeUsage(self):
+        #Gets the total amount of power used by the device
+        sql = 'SELECT SUM(COLUMN NAME HERE) FROM WHERE'
+
+    def hourlyGraph(self):
+        #Graph of power usage over time for past hour
+        #hourly = self.getHourlyData
+        
         fig, ax = plt.subplots()
-        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        counts = [10,3,4,7,2,12,11,7,3,4,1,5]
-        ax.plot(months, counts)
+        #ax.plot(minute, power)
         ax.set(xlabel='Month', ylabel='Test Unit', title='Test Plot')
         ax.grid()
-        plt.xticks(months, rotation='vertical') #FIX the labels going off the edges
+        #plt.xticks(months, rotation='vertical') #FIX the labels going off the edges
 
         self.plotWidget = FigureCanvas(fig)
         lay = QtWidgets.QVBoxLayout(self.HomeGraph)  
