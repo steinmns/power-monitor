@@ -20,6 +20,14 @@ import qtawesome as qta #Possibly make this only material icons at some point
 #Database Dependencies
 import mysql.connector
 
+#Database Credentials
+dbConnection = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    passwd="1234",
+    database="powermonitor"
+)
+
 class Main_Win(QMainWindow):
     
     def __init__(self):
