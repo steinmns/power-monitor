@@ -61,3 +61,4 @@ class Settings_Win(QDialog):
         cursor.execute(sql, vals)
         dbConnection.commit()
         cursor.close()
+        self.close()    #Closes the window when settings are saved

@@ -37,6 +37,7 @@ class Profiles_Win(QDialog):
         #Save Button Setup
         self.saveConfigsButton = self.findChild(QtWidgets.QPushButton, 'SaveProfilesButton')
         self.saveConfigsButton.clicked.connect(self.saveConfigChanges)
+        
 
         #Cancel Button Setup
         self.cancelProfilesButton = self.findChild(QtWidgets.QPushButton, 'CancelProfilesButton')
@@ -75,6 +76,7 @@ class Profiles_Win(QDialog):
         self.updateConfigTable('3', self.p3Text.text())
         self.updateConfigTable('4', self.p4Text.text())
         self.updateConfigTable('5', self.p5Text.text())
+        self.close()    #Closes the window when settings are saved
 
     def updateConfigTable(self, idVal, nameVal):
         #Updates config values
