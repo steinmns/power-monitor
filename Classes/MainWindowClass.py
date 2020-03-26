@@ -64,6 +64,9 @@ class Main_Win(QMainWindow):
         self.NotificationsButton = self.findChild(QtWidgets.QPushButton, 'NotificationsButton')
         self.NotificationsButton.setIcon(notifications_icon)
 
+        #Load Graph
+        self.getProofofConceptGraph()
+
     def displaySettingsMenu(self):
         # Displays the Settings Menu when the SettingsButton is pressed
         settingsMenu = Settings_Win(self)
@@ -108,3 +111,34 @@ class Main_Win(QMainWindow):
         lay = QtWidgets.QVBoxLayout(self.HomeGraph)  
         lay.setContentsMargins(0, 0, 0, 0)      
         lay.addWidget(self.plotWidget)
+
+    def getProofofConceptGraph(self):
+        #Due to COVID-19, this is the closest we can come to a real graph since we don't have our circuit to collect data
+        sql = 'SELECT DEVICE1_TIMESTAMP, (DEVICE1_VOLTAGE*DEVICE1_CURRENT) AS DEVICE1_POWER FROM device1_readings'
+        cursor = dbConnection.cursor()
+        cursor.execute(sql)
+        powerData = cursor.fetchall()
+        cursor.close()
+        timeVals = []
+        powerVals = []
+
+        for item in powerData:
+            timeVals.append(str(item[0].minute) + 'M' + str(item[0].second) +'S')
+            powerVals.append(item[1])
+
+        #Graph Setup
+        fig, ax = plt.subplots()
+        ax.plot(timeVals, powerVals)
+        ax.set(xlabel='Time', ylabel='Watts', title='Power Usage vs. Time (Past 10 Minutes)')
+        ax.grid()
+        plt.xticks(timeVals, rotation='vertical') #FIX the labels going off the edges
+        plt.tight_layout()
+
+        self.plotWidget = FigureCanvas(fig)
+        lay = QtWidgets.QVBoxLayout(self.HomeGraph)  
+        lay.setContentsMargins(0, 0, 0, 0)      #(left, top, right, bottom)
+        lay.addWidget(self.plotWidget)
+
+    #def loadDataTable(self):
+        #Displays all collected data
+
