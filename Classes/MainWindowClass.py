@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QVBoxLayout
 #External Classes
 from Classes.SettingsMenuClass import Settings_Win
 from Classes.ProfilesMenuClass import Profiles_Win
+from Classes.NotificationsWindowClass import Notifications_Win
 
 #Graphing Dependencies
 import matplotlib
@@ -63,6 +64,7 @@ class Main_Win(QMainWindow):
         notifications_icon = qta.icon('mdi.alarm-light-outline')
         self.NotificationsButton = self.findChild(QtWidgets.QPushButton, 'NotificationsButton')
         self.NotificationsButton.setIcon(notifications_icon)
+        self.NotificationsButton.clicked.connect(self.displayNotificationsWindow)
 
         #Settings
         appSettings = Settings_Win(self).getActiveSettings()
@@ -100,6 +102,14 @@ class Main_Win(QMainWindow):
             print("Success!")
         else:
             print("Closing Profiles Menu")
+
+    def displayNotificationsWindow(self):
+        #Displays the Notifications Window when the NotificationsButton is pressed
+        notificationsWindow = Notifications_Win(self)
+        if notificationsWindow.exec_():
+            print("Success!")
+        else:
+            print("Closing Notifications Menu")
 
     def getData(self, timespan):
         #Gets power usage data logged over past hour
