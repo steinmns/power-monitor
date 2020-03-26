@@ -64,11 +64,26 @@ class Main_Win(QMainWindow):
         self.NotificationsButton = self.findChild(QtWidgets.QPushButton, 'NotificationsButton')
         self.NotificationsButton.setIcon(notifications_icon)
 
+        #Settings
+        appSettings = Settings_Win(self).getActiveSettings()
+        self.activeDeviceNum = str((self.getActiveDeviceNum(appSettings[0][1])[0][0]))  #Holds the ID number of the active device profile
+
         #Load Graph
         self.getProofofConceptGraph()
 
         #Load Data Table
         self.loadDataTable()
+
+    def getActiveDeviceNum(self, profileName):
+        #Gets Device Number of Active Device Profile
+        #There is almost certainly a better way to do this
+        sql = 'SELECT PROFILES_ID FROM profiles WHERE PROFILES_NAME = %s'
+        vals = [profileName]
+        cursor = dbConnection.cursor()
+        cursor.execute(sql,vals)
+        deviceNum = cursor.fetchall()
+        cursor.close()
+        return deviceNum
 
     def displaySettingsMenu(self):
         # Displays the Settings Menu when the SettingsButton is pressed
@@ -117,7 +132,7 @@ class Main_Win(QMainWindow):
 
     def getProofofConceptGraph(self):
         #Due to COVID-19, this is the closest we can come to a real graph since we don't have our circuit to collect data
-        sql = 'SELECT DEVICE1_TIMESTAMP, (DEVICE1_VOLTAGE*DEVICE1_CURRENT) AS DEVICE1_POWER FROM device1_readings'
+        sql = 'SELECT DEVICE'  + self.activeDeviceNum + '_TIMESTAMP, (DEVICE' + self.activeDeviceNum + '_VOLTAGE*DEVICE'+ self.activeDeviceNum + '_CURRENT) AS DEVICE' + self.activeDeviceNum + '_POWER FROM device' + self.activeDeviceNum + '_readings'
         cursor = dbConnection.cursor()
         cursor.execute(sql)
         powerData = cursor.fetchall()
@@ -144,7 +159,7 @@ class Main_Win(QMainWindow):
 
     def loadDataTable(self):
         #Displays all collected data
-        sql = 'SELECT DEVICE1_ID, DEVICE1_VOLTAGE, DEVICE1_CURRENT, (DEVICE1_VOLTAGE*DEVICE1_CURRENT) AS DEVICE1_POWER, DEVICE1_TIMESTAMP FROM device1_readings'
+        sql = 'SELECT DEVICE' + self.activeDeviceNum +'_ID, DEVICE' + self.activeDeviceNum + '_VOLTAGE, DEVICE' + self.activeDeviceNum + '_CURRENT, (DEVICE' + self.activeDeviceNum + '_VOLTAGE*DEVICE' + self.activeDeviceNum + '_CURRENT) AS DEVICE' + self.activeDeviceNum + '_POWER, DEVICE' + self.activeDeviceNum + '_TIMESTAMP FROM device' + self.activeDeviceNum + '_readings'
         cursor = dbConnection.cursor()
         cursor.execute(sql)
         tableData = cursor.fetchall()
@@ -163,4 +178,3 @@ class Main_Win(QMainWindow):
             for column_number, data in enumerate(row_data):
                 self.PowerDataTable.setItem(row_number, column_number,QtWidgets.QTableWidgetItem(str(data)))
         
-
