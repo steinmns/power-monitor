@@ -67,6 +67,9 @@ class Main_Win(QMainWindow):
         #Load Graph
         self.getProofofConceptGraph()
 
+        #Load Data Table
+        self.loadDataTable()
+
     def displaySettingsMenu(self):
         # Displays the Settings Menu when the SettingsButton is pressed
         settingsMenu = Settings_Win(self)
@@ -139,6 +142,25 @@ class Main_Win(QMainWindow):
         lay.setContentsMargins(0, 0, 0, 0)      #(left, top, right, bottom)
         lay.addWidget(self.plotWidget)
 
-    #def loadDataTable(self):
+    def loadDataTable(self):
         #Displays all collected data
+        sql = 'SELECT DEVICE1_ID, DEVICE1_VOLTAGE, DEVICE1_CURRENT, (DEVICE1_VOLTAGE*DEVICE1_CURRENT) AS DEVICE1_POWER, DEVICE1_TIMESTAMP FROM device1_readings'
+        cursor = dbConnection.cursor()
+        cursor.execute(sql)
+        tableData = cursor.fetchall()
+        cursor.close()
+
+        header = ["ID","Voltage", "Current", "Power Draw", "DateTime"]
+        self.PowerDataTable.setColumnCount(5) #Sets column count to 7
+        self.PowerDataTable.setColumnHidden(0, True)  #Hides ID column because it clutters the table in the UI -> used exclusively for edit and delete operations
+        self.PowerDataTable.setColumnWidth(1, 75)
+        self.PowerDataTable.setColumnWidth(2, 75)
+        self.PowerDataTable.setColumnWidth(3, 85)
+        self.PowerDataTable.setColumnWidth(4, 150)
+        self.PowerDataTable.setHorizontalHeaderLabels(header) #Sets Column headings
+        for row_number, row_data in enumerate(tableData):    #Adds data from select statement to the table
+            self.PowerDataTable.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.PowerDataTable.setItem(row_number, column_number,QtWidgets.QTableWidgetItem(str(data)))
+        
 

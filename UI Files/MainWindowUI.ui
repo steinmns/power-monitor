@@ -42,7 +42,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="HomeTab">
      <attribute name="title">
@@ -63,6 +63,16 @@
      <attribute name="title">
       <string>Data</string>
      </attribute>
+     <widget class="QTableWidget" name="PowerDataTable">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>451</width>
+        <height>631</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="SettingsButton">
