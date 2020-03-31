@@ -76,6 +76,9 @@ class Main_Win(QMainWindow):
         #Load Data Table
         self.loadDataTable()
 
+        #Load stats
+        self.getAverage(1)
+
     def getActiveDeviceNum(self, profileName):
         #Gets Device Number of Active Device Profile
         #There is almost certainly a better way to do this
@@ -117,9 +120,15 @@ class Main_Win(QMainWindow):
         sql = 'SELECT FROM WHERE'
 
     def getAverage(self, timepsan):
-        #Gets average power usage over past hour
+        #Gets average power usage over past x time
         #Timespan indicates the scope of the get (hourly/weekly/monthly/yearly)
-        sql = 'SELECT AVG(COLUMN NAME HERE) FROM WHERE'
+        sql = 'SELECT AVG(DEVICE' + self.activeDeviceNum + '_VOLTAGE * DEVICE' + self.activeDeviceNum + '_CURRENT) FROM device' + self.activeDeviceNum + '_readings' #Add where clause here that acts on timespan
+        cursor = dbConnection.cursor()
+        cursor.execute(sql)
+        avgPower = cursor.fetchall()
+        avgPower = avgPower[0][0]
+        cursor.close()
+        self.AvgDrawValueLabel.setText('{:.2f}'.format(avgPower))   #Truncates power draw value to 2 decimal places
 
     def getLifetimeUsage(self):
         #Gets the total amount of power used by the device
@@ -178,13 +187,16 @@ class Main_Win(QMainWindow):
         header = ["ID","Voltage", "Current", "Power Draw", "DateTime"]
         self.PowerDataTable.setColumnCount(5) #Sets column count to 7
         self.PowerDataTable.setColumnHidden(0, True)  #Hides ID column because it clutters the table in the UI -> used exclusively for edit and delete operations
-        self.PowerDataTable.setColumnWidth(1, 75)
-        self.PowerDataTable.setColumnWidth(2, 75)
-        self.PowerDataTable.setColumnWidth(3, 85)
-        self.PowerDataTable.setColumnWidth(4, 150)
+        self.PowerDataTable.setColumnWidth(1, 75) #Voltage
+        self.PowerDataTable.setColumnWidth(2, 75) #Current
+        self.PowerDataTable.setColumnWidth(3, 85) #Power Draw
+        self.PowerDataTable.setColumnWidth(4, 150) #Datetime
         self.PowerDataTable.setHorizontalHeaderLabels(header) #Sets Column headings
         for row_number, row_data in enumerate(tableData):    #Adds data from select statement to the table
             self.PowerDataTable.insertRow(row_number)
             for column_number, data in enumerate(row_data):
-                self.PowerDataTable.setItem(row_number, column_number,QtWidgets.QTableWidgetItem(str(data)))
+                if column_number != 4:
+                    self.PowerDataTable.setItem(row_number, column_number,QtWidgets.QTableWidgetItem('{:.2f}'.format(data)))    #Truncates vals to only 2 decimal places
+                else:
+                    self.PowerDataTable.setItem(row_number, column_number,QtWidgets.QTableWidgetItem(str(data)))
         

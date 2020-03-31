@@ -73,6 +73,42 @@
        </rect>
       </property>
      </widget>
+     <widget class="QLabel" name="AvgDrawLabel">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>30</y>
+        <width>161</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Average Power Draw (W):</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="AvgDrawValueLabel">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>30</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>VAL</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="SettingsButton">
