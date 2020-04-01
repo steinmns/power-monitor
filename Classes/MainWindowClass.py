@@ -77,7 +77,9 @@ class Main_Win(QMainWindow):
         self.loadDataTable()
 
         #Load stats
-        self.getAverage(1)
+        self.getAverage(1) #Arg should be changed to actual value when timespan is figured out
+        self.getMaxPower(1)
+        self.getMinPower(1)
 
     def getActiveDeviceNum(self, profileName):
         #Gets Device Number of Active Device Profile
@@ -129,6 +131,24 @@ class Main_Win(QMainWindow):
         avgPower = avgPower[0][0]
         cursor.close()
         self.AvgDrawValueLabel.setText('{:.2f}'.format(avgPower))   #Truncates power draw value to 2 decimal places
+
+    def getMaxPower(self, timespan):
+        #Gets maximum power usage value over past x time
+        sql = 'SELECT MAX(DEVICE' + self.activeDeviceNum + '_VOLTAGE * DEVICE' + self.activeDeviceNum + '_CURRENT) FROM device' + self.activeDeviceNum + '_readings' #Add where clause here that acts on timespan
+        cursor = dbConnection.cursor()
+        cursor.execute(sql)
+        maxPower = cursor.fetchall()
+        maxPower = maxPower[0][0]
+        self.MaxDrawValueLabel.setText('{:.2f}'.format(maxPower))
+
+    def getMinPower(self, timespan):
+        #Gets minimum power usage value over past x time
+        sql = 'SELECT MIN(DEVICE' + self.activeDeviceNum + '_VOLTAGE * DEVICE' + self.activeDeviceNum + '_CURRENT) FROM device' + self.activeDeviceNum + '_readings' #Add where clause here that acts on timespan
+        cursor = dbConnection.cursor()
+        cursor.execute(sql)
+        minPower = cursor.fetchall()
+        minPower = minPower[0][0]
+        self.MinDrawValueLabel.setText('{:.2f}'.format(minPower)) 
 
     def getLifetimeUsage(self):
         #Gets the total amount of power used by the device

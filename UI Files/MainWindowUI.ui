@@ -109,6 +109,78 @@
        <string>VAL</string>
       </property>
      </widget>
+     <widget class="QLabel" name="MaxDrawLabel">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>60</y>
+        <width>161</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Maximum Power Draw (W):</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="MaxDrawValueLabel">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>60</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>VAL</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="MinDrawValueLabel">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>90</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>VAL</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="MinDrawLabel">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>90</y>
+        <width>161</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Minimum Power Draw (W):</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="SettingsButton">
